@@ -12,6 +12,7 @@ OutputNeuron::OutputNeuron(double stepvalue, double betavalue, int numberOfPrevL
 	{
 		weights.push_back(weightGenerator());
 		inputValues.push_back(0);
+		lastDeltaValues.push_back(0);
 	}
 
 	std::cout << "Utworzylem sie: wyjscie" << std::endl;
@@ -106,4 +107,14 @@ void OutputNeuron::setWeightedSum()
 double OutputNeuron::getWeightedSum()
 {
 	return this->weightedSum;
+}
+
+std::vector<double> OutputNeuron::getLastDeltaValues()
+{
+	return this->lastDeltaValues;
+}
+
+void OutputNeuron::setLastDeltaValues(int i, double value)
+{
+	this->lastDeltaValues.at(i) = value;
 }

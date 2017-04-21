@@ -4,6 +4,7 @@
 
 FileOperation::FileOperation()
 {
+	noOfIter = 4;
 }
 
 
@@ -36,9 +37,10 @@ std::vector<std::vector<double>> FileOperation::getVectors()
 
 std::vector<double> FileOperation::getRandedRow()
 {
-	int randomLine = rand() % this->vectors.size();
-
-	return this->vectors.at(randomLine);
+	if (rowNumbers.size() == 0) randNumbers();
+	int i = rowNumbers.back();
+	rowNumbers.pop_back();
+	return this->vectors.at(i);
 }
 
 std::vector<double> FileOperation::getSpecifiedRow(int row)
@@ -74,5 +76,20 @@ void FileOperation::printSpecifiedRow(int row)
 	for (auto it = vectors.at(row).begin(); it != vectors.at(row).end(); it++)
 	{
 		std::cout << *it;
+	}
+}
+
+void FileOperation::randNumbers()
+{
+	std::vector<int> tempNumbers;
+	for (int i = 0; i < vectors.size(); i++)
+	{
+		tempNumbers.push_back(i);
+	}
+	for (int i = 0; i < noOfIter; i++)
+	{
+		int temp = rand() % tempNumbers.size();
+		rowNumbers.push_back(tempNumbers.at(temp));
+		tempNumbers.erase(tempNumbers.begin() + temp);
 	}
 }

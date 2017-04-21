@@ -13,9 +13,10 @@ private:
 	std::vector<InputNeuron*> *inputLayer;
 	std::vector<std::vector<HiddenNeuron*>> *hiddenLayer;
 	std::vector<OutputNeuron*> *outputLayer;
+	double momentum;
 
 public:
-	BackPropagation(Network* network);
+	BackPropagation(Network* network, double momentum);
 	virtual ~BackPropagation();
 
 	void errorOutput();

@@ -5,7 +5,7 @@ Network::Network(std::vector<int> anatomy, bool bias)
 {
 	this->bias = bias;
 	createNetworkStructure(anatomy, bias);
-	this->backprop = new BackPropagation(this);
+	this->backprop = new BackPropagation(this, 0.5);
 	this->file = new FileOperation();
 
 	this->row = 0;
@@ -143,11 +143,11 @@ BackPropagation *Network::getBackPropagation()
 void Network::loadInputValues()
 {
 	int i = 0;
-	std::vector<double> value = file->getSpecifiedRow(row);
+	std::vector<double> value = file->getRandedRow();
 	//test.push_back(value);
-	row++;
-	if (row > 3)
-		row = 0;
+	//row++;
+	//if (row > 3)
+	//	row = 0;
 	for (auto &it : inputLayer)
 	{
 		it->setOutputValue(value.at(i));
@@ -172,7 +172,7 @@ void Network::forwardPropagation()
 			{
 				for (auto iterator = (it-1)->begin(); iterator != it->end(); iterator++)
 				{
-					(*iter)->setInputValue(std::distance((it - 1)->begin(), iterator), (*iterator)->getOutputValue());
+					(*iter)->setInputValue(std::distance((it-1)->begin(), iterator), (*iterator)->getOutputValue());
 				}
 			}
 
@@ -194,6 +194,11 @@ void Network::forwardPropagation()
 		for (auto iterator = hiddenLayer.back().begin(); iterator != hiddenLayer.back().end(); iterator++)
 		{
 			(*it)->setInputValue(std::distance(hiddenLayer.back().begin(), iterator), (*iterator)->getOutputValue());
+		}
+
+		if (bias == true)
+		{
+				(*it)->setInputValue(hiddenLayer.back().size(), 1);
 		}
 
 		(*it)->setOutputValue();

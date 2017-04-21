@@ -13,6 +13,7 @@ private:
 	double stepValue;
 	double betaValue;
 	double weightedSum;
+	std::vector<double> lastDeltaValues;
 
 public:
 	OutputNeuron(double stepvalue, double betavalue, int numberOfPrevLayer);
@@ -39,5 +40,8 @@ public:
 	void setWeightedSum();
 
 	double getWeightedSum();
+
+	std::vector<double> getLastDeltaValues();
+	void setLastDeltaValues(int i, double value);
 };
 

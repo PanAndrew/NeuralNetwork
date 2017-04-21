@@ -12,6 +12,7 @@ HiddenNeuron::HiddenNeuron(double stepvalue, double betavalue, int numberOfPrevL
 	{
 		weights.push_back(weightGenerator());
 		inputValues.push_back(0);
+		lastDeltaValues.push_back(0);
 	}
 
 	std::cout << "Utworzylem sie: ukryty" << std::endl;
@@ -106,4 +107,14 @@ void HiddenNeuron::setWeightedSum()
 double HiddenNeuron::getWeightedSum()
 {
 	return this->weightedSum;
+}
+
+std::vector<double> HiddenNeuron::getLastDeltaValues()
+{
+	return this->lastDeltaValues;
+}
+
+void HiddenNeuron::setLastDeltaValues(int i, double value)
+{
+	this->lastDeltaValues.at(i) = value;
 }

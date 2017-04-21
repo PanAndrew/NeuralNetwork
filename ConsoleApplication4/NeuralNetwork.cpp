@@ -17,7 +17,7 @@ int main()
 
 	//USTALENIE KONFIGURACJI
 	std::cout << "KONFIGURACJA:" << std::endl;
-	std::vector<int> anatomy = { 4,2,4 };
+	std::vector<int> anatomy = { 4,3,4 };
 
 	for (auto it = anatomy.begin(); it != anatomy.end(); it++)
 		std::cout << *it << " ";
@@ -26,15 +26,15 @@ int main()
 	std::cout << std::endl << "Lista neuronow (zglaszajcie sie):" << std::endl;
 
 	//UTWORZNIE SIECI
-	Network network(anatomy, true);
+	Network network(anatomy, false);
 
 	//ZALADOWANIE PLIKU
 	network.getFile()->loadFile("transformation.txt");
 	std::cout << std::endl;
 	
 	//USTALENIE ILOSCI ITERACJI
-	int iterations = 10000*4;
-	std::cout << std::endl << "Liczba iteracji: " << iterations << std::endl;
+	//int iterations = 10000*4;
+	//std::cout << std::endl << "Liczba iteracji: " << iterations << std::endl;
 
 	std::cout << "Informacje o sieci:" << std::endl;
 	network.displayInfo();
@@ -59,7 +59,7 @@ int main()
 		network.backPropagation();
 		network.epochsAndMidSquareError();
 
-	} while (network.getMediumSquareError() > 0.07);
+	} while (network.getMediumSquareError() > 0.001);
 
 
 	for (int k = 0; k < 4; k++)

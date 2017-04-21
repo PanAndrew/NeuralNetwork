@@ -3,11 +3,12 @@
 
 
 
-BackPropagation::BackPropagation(Network* network)
+BackPropagation::BackPropagation(Network* network, double momentum)
 {
 	this->inputLayer = network->getInputLayer();
 	this->hiddenLayer = network->getHiddenLayer();
 	this->outputLayer = network->getOutputLayer();
+	this->momentum = momentum;
 }
 
 
@@ -41,7 +42,6 @@ void BackPropagation::errorHidden()
 			
 			if ((*(vector_it-1)) == hiddenLayer->back())
 			{
-				//TODO: Dodaæ obs³ugê wag biasu
 				for (auto iter = outputLayer->begin(); iter != outputLayer->end(); iter++) // warstwa wyjsciowa
 				{
 					double value = (*iter)->getWeights().at(i);
@@ -74,7 +74,9 @@ void BackPropagation::weightCorrection()
 			{
 				double deltaValue = ((*iter)->getStepValue()*(*iter)->getErrorValue() * (*iter)->getInputValues().at(i));
 				double newWeight = (*iter)->getWeights().at(i) + deltaValue;
+				newWeight += momentum * (*iter)->getLastDeltaValues().at(i);
 				(*iter)->setWeight(i, newWeight);
+				(*iter)->setLastDeltaValues(i, deltaValue);
 			}
 		}
 	}
@@ -85,7 +87,9 @@ void BackPropagation::weightCorrection()
 		{
 			double deltaValue = ((*iter)->getStepValue()*(*iter)->getErrorValue() * (*iter)->getInputValues().at(i));
 			double newWeight = (*iter)->getWeights().at(i) + deltaValue;
+			newWeight += momentum * (*iter)->getLastDeltaValues().at(i);
 			(*iter)->setWeight(i, newWeight);
+			(*iter)->setLastDeltaValues(i, deltaValue);
 		}
 	}
 }
