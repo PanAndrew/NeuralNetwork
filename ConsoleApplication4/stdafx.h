@@ -18,5 +18,6 @@
 #include <string>
 #include <sstream>
 #include <stdlib.h>
+#include <algorithm>
 
 // TODO: W tym miejscu odwo³aj siê do dodatkowych nag³ówków wymaganych przez program

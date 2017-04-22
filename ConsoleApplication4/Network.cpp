@@ -326,15 +326,24 @@ void Network::printInfoAboutNeurons()
 
 void Network::printMSEToFile()
 {
+	std::vector<std::string> tempMSEVec;
+	std::string temp;
+	for (auto &it : epochMediumSquareError)
+	{
+		temp = std::to_string(it);
+		std::replace(temp.begin(), temp.end(), '.', ',');
+		tempMSEVec.push_back(temp);
+	}
+
 	std::ofstream outputFile("..\\mse.txt", std::ios::out);
 	
 	if (outputFile.good())
 	{
-		for (auto &it : epochMediumSquareError)
+		for (auto &it : tempMSEVec)
 		{
 			outputFile << it << std::endl;
 		}
-
+		outputFile.close();
 	}
 	else
 		std::cout << "Nie udalo sie odczytac pliku" << std::endl;
