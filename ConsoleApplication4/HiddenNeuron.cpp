@@ -14,8 +14,6 @@ HiddenNeuron::HiddenNeuron(double stepvalue, double betavalue, int numberOfPrevL
 		inputValues.push_back(0);
 		lastDeltaValues.push_back(0);
 	}
-
-	std::cout << "Utworzylem sie: ukryty" << std::endl;
 }
 
 

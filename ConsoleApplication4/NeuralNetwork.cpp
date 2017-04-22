@@ -17,20 +17,31 @@ int main()
 
 	//USTALENIE KONFIGURACJI
 	std::cout << "KONFIGURACJA:" << std::endl;
-	std::vector<int> anatomy = { 4,6,4 };
+	std::vector<int> anatomy = { 4,3,4 };
 
 	for (auto it = anatomy.begin(); it != anatomy.end(); it++)
 		std::cout << *it << " ";
 	std::cout << std::endl;
 
-	//USTALENIE ILOSCI ITERACJI
+	//USTALENIE ILOSCI ITERACJI I KONFIGURACJI SIECI
 	int iterationsPerEpoch = 4;
-	std::cout << std::endl << "Liczba iteracji na epoke: " << iterationsPerEpoch << std::endl;
+	double stopMseValue = 0.00001;
+	
+	bool bias = true;
+	double momentum = 0.9;
+	double stepValue = 0.5;
+	double betaValue = 1.0;
 
-	std::cout << std::endl << "Lista neuronow (zglaszajcie sie):" << std::endl;
+	std::cout << "Liczba iteracji na epoke: " << iterationsPerEpoch << std::endl;
+	std::cout << "Wartosc graniczna MSE dla sieci: " << stopMseValue << std::endl;
+	std::cout << "Bias: " << bias << std::endl;
+	std::cout << "Wartosc momentum: " << momentum << std::endl;
+	std::cout << "Wartosc kroku: " << stepValue << std::endl;
+	std::cout << "Wartosc Beta: " << betaValue << std::endl;
 
 	//UTWORZENIE SIECI
-	Network network(anatomy, true, 0.5, 0.6, 1.0, iterationsPerEpoch);
+	//Uklad, bias, momentum, stepValue, betaValue, iterPerEpoch;
+	Network network(anatomy, bias, momentum, stepValue, betaValue, iterationsPerEpoch);
 
 	//ZALADOWANIE PLIKU
 	network.getFile()->loadFile("transformation.txt");
@@ -38,7 +49,7 @@ int main()
 	
 	//PIERWSZE INFO O SIECI
 	//std::cout << std::endl << std::endl;
-	std::cout << "Informacje o sieci:" << std::endl;
+	std::cout << "Informacje o sieci przed nauka:" << std::endl;
 	network.printInfoAboutNeurons();
 
 	//for (int i = 0; i < iterations; i++)
@@ -62,7 +73,7 @@ int main()
 			network.backPropagation();
 			network.epochsAndMidSquareError();
 		}
-	} while (network.getMediumSquareError() > 0.001);
+	} while (network.getMediumSquareError() > stopMseValue);
 
 
 	//TEST SIECI

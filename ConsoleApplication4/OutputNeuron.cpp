@@ -14,8 +14,6 @@ OutputNeuron::OutputNeuron(double stepvalue, double betavalue, int numberOfPrevL
 		inputValues.push_back(0);
 		lastDeltaValues.push_back(0);
 	}
-
-	std::cout << "Utworzylem sie: wyjscie" << std::endl;
 }
 
 

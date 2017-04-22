@@ -3,7 +3,6 @@
 
 InputNeuron::InputNeuron()
 {
-	std::cout << "Utworzylem sie: wejscie" << std::endl;
 }
 
 InputNeuron::~InputNeuron()
