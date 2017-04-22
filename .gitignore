@@ -241,3 +241,4 @@ ModelManifest.xml
 # FAKE - F# Make
 .fake/
 /ConsoleApplication4/mse.txt
+/mse.txt

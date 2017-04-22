@@ -326,7 +326,7 @@ void Network::printInfoAboutNeurons()
 
 void Network::printMSEToFile()
 {
-	std::ofstream outputFile("mse.txt", std::ios::out);
+	std::ofstream outputFile("..\\mse.txt", std::ios::out);
 	
 	if (outputFile.good())
 	{

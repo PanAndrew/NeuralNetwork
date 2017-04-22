@@ -17,7 +17,7 @@ int main()
 
 	//USTALENIE KONFIGURACJI
 	std::cout << "KONFIGURACJA:" << std::endl;
-	std::vector<int> anatomy = { 4,3,4 };
+	std::vector<int> anatomy = { 4,6,4 };
 
 	for (auto it = anatomy.begin(); it != anatomy.end(); it++)
 		std::cout << *it << " ";
@@ -91,11 +91,11 @@ int main()
 	std::cout << "Informacje o sieci:" << std::endl;
 	network.displayInfo();
 	std::cout << std::endl << std::endl;
-	network.printInfoAboutNeurons();
+	//network.printInfoAboutNeurons();
 
 	network.printMSEToFile();
 
-	network.printHiddenInputs();
+	//network.printHiddenInputs();
 
 	//WYPISANIE WSZYSTKICH WZORCOW TESTOWYCH
 	//for (auto &it : network.test)
