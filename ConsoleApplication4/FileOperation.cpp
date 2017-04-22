@@ -2,9 +2,9 @@
 #include "FileOperation.h"
 
 
-FileOperation::FileOperation()
+FileOperation::FileOperation(int iterationsPerEpoch)
 {
-	noOfIter = 4;
+	noOfIter = iterationsPerEpoch;
 }
 
 

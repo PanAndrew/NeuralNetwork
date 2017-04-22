@@ -12,6 +12,5 @@ public:
 	virtual ~Neuron();
 
 	double getOutputValue();
-
 };
 

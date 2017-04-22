@@ -33,16 +33,16 @@ void BackPropagation::errorHidden()
 	int i;
 	double errorValue;
 
-	for (auto vector_it = hiddenLayer->end(); vector_it != hiddenLayer->begin(); vector_it--) //warstwa warstw
+	for (auto vector_it = hiddenLayer->end(); vector_it != hiddenLayer->begin(); vector_it--) // Vector of vectors (vector of layers)
 	{
 		i = 0;
-		for (auto it = (vector_it-1)->begin(); it != (vector_it-1)->end(); it++) // warstwa neuronow ukrytych
+		for (auto it = (vector_it-1)->begin(); it != (vector_it-1)->end(); it++) //Hidden neurons' layer
 		{
 			errorValue = 0.0;
 			
 			if ((*(vector_it-1)) == hiddenLayer->back())
 			{
-				for (auto iter = outputLayer->begin(); iter != outputLayer->end(); iter++) // warstwa wyjsciowa
+				for (auto iter = outputLayer->begin(); iter != outputLayer->end(); iter++) // Output neurons' layer
 				{
 					double value = (*iter)->getWeights().at(i);
 					errorValue += (*iter)->getErrorValue() * value;

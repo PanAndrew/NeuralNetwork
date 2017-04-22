@@ -68,14 +68,14 @@ double HiddenNeuron::activationFunction()
 {
 	double result = 0.0;
 	result = 1.0 /( 1.0 + exp((-1.0*(this->betaValue))*this->weightedSum));
-	return result; //result
+	return result;
 }
 
 double HiddenNeuron::derivativeActiFunc()
 {
 	if (betaValue == 1.0)
 	{
-		return activationFunction()*(1.0 - activationFunction()); //activationFunction()*(1.0 - activationFunction())
+		return activationFunction()*(1.0 - activationFunction());
 	}
 	else
 	{

@@ -14,8 +14,3 @@ void InputNeuron::setOutputValue(double outputvalue)
 {
 	this->outputValue = outputvalue;
 }
-
-//double InputNeuron::getOutputValue()
-//{
-//	return outputValue;
-//}

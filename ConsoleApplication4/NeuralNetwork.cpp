@@ -23,22 +23,22 @@ int main()
 		std::cout << *it << " ";
 	std::cout << std::endl;
 
+	//USTALENIE ILOSCI ITERACJI
+	int iterationsPerEpoch = 4;
+	std::cout << std::endl << "Liczba iteracji na epoke: " << iterationsPerEpoch << std::endl;
+
 	std::cout << std::endl << "Lista neuronow (zglaszajcie sie):" << std::endl;
 
-	//UTWORZNIE SIECI
-	Network network(anatomy, false);
+	//UTWORZENIE SIECI
+	Network network(anatomy, true, 0.5, 0.6, 1.0, iterationsPerEpoch);
 
 	//ZALADOWANIE PLIKU
 	network.getFile()->loadFile("transformation.txt");
 	std::cout << std::endl;
 	
-	//USTALENIE ILOSCI ITERACJI
-	//int iterations = 10000*4;
-	//std::cout << std::endl << "Liczba iteracji: " << iterations << std::endl;
-
+	//PIERWSZE INFO O SIECI
+	//std::cout << std::endl << std::endl;
 	std::cout << "Informacje o sieci:" << std::endl;
-	network.displayInfo();
-	std::cout << std::endl << std::endl;
 	network.printInfoAboutNeurons();
 
 	//for (int i = 0; i < iterations; i++)
@@ -52,15 +52,21 @@ int main()
 	//		std::cout << "10000" << std::endl;
 	//}
 
+	int i;
 	do
 	{
-		network.loadInputValues();
-		network.forwardPropagation();
-		network.backPropagation();
-		network.epochsAndMidSquareError();
-
+		for (i = 0; i < iterationsPerEpoch; i++)
+		{
+			network.loadInputValues();
+			network.forwardPropagation();
+			network.backPropagation();
+			network.epochsAndMidSquareError();
+		}
 	} while (network.getMediumSquareError() > 0.001);
 
+
+	//TEST SIECI
+	std::cout << std::endl << "Test sieci na podstawie losowego zestawu wzorcow:" << std::endl;
 
 	for (int k = 0; k < 4; k++)
 	{
@@ -80,7 +86,6 @@ int main()
 
 	std::cout << "Ostatnie wejscie" << std::endl;
 	network.printInputs();
-
 	std::cout << std::endl << std::endl;
 	
 	std::cout << "Informacje o sieci:" << std::endl;
@@ -102,7 +107,7 @@ int main()
 	//	std:: cout << std::endl;
 	//}
 
-	//std::cout << std::endl << "DZIALA HAHAHA :)" << std::endl << std::endl;
+	std::cout << std::endl << "DZIALA HAHAHA :)" << std::endl << std::endl;
 	//std::system("PAUSE");
     return 0;
 }

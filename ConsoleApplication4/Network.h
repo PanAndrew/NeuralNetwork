@@ -31,13 +31,13 @@ private:
 	std::vector<double> epochMediumSquareError;
 
 	//void addBias(std::vector<int> anatomy);
-	void createNetworkStructure(std::vector<int> anatomy, bool bias);
+	void createNetworkStructure(std::vector<int> anatomy, bool bias, double stepValue, double betaValue);
 
 	BackPropagation *backprop;
 	FileOperation *file;
 
 public:
-	Network(std::vector<int> anatomy, bool bias);
+	Network(std::vector<int> anatomy, bool bias, double momentum, double stepValue, double betaValue, int iterationsPerEpoch);
 	virtual ~Network();
 
 	std::vector<InputNeuron*> *getInputLayer();
@@ -62,6 +62,8 @@ public:
 	void epochsAndMidSquareError();
 
 	void mediumSquareError();
+
+	std::vector<double> getVectorOfMediumSquareError();
 
 	double getMediumSquareError();
 

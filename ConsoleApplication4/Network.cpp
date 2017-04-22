@@ -1,18 +1,18 @@
 #include "stdafx.h"
 #include "Network.h"
 
-Network::Network(std::vector<int> anatomy, bool bias)
+Network::Network(std::vector<int> anatomy, bool bias, double momentum, double stepValue, double betaValue, int iterationsPerEpoch)
 {
 	this->bias = bias;
-	createNetworkStructure(anatomy, bias);
-	this->backprop = new BackPropagation(this, 0.5);
-	this->file = new FileOperation();
+	createNetworkStructure(anatomy, bias, stepValue, betaValue);
+	this->backprop = new BackPropagation(this, momentum);
+	this->file = new FileOperation(iterationsPerEpoch);
 
 	this->row = 0;
 
 	epochCounter = 0;
 	iterationCounter = 0;
-	epochMediumSquareError.push_back(1);
+	//epochMediumSquareError.push_back(1);
 
 	///////////TESTY//////////////
 	//WEJSCIA
@@ -77,7 +77,7 @@ std::vector<OutputNeuron*> *Network::getOutputLayer()
 	return &(this->outputLayer);
 }
 
-void Network::createNetworkStructure(std::vector<int> anatomy, bool bias)
+void Network::createNetworkStructure(std::vector<int> anatomy, bool bias, double stepValue, double betaValue)
 {
 	for (int j = 0; j < *anatomy.begin(); j++)
 	{
@@ -94,13 +94,16 @@ void Network::createNetworkStructure(std::vector<int> anatomy, bool bias)
 			if (it == anatomy.begin() + 1)
 			{
 				if(bias == true)
-					hiddenNeuron = new HiddenNeuron(0.6, 1.0, inputLayer.size()+1);
+					hiddenNeuron = new HiddenNeuron(stepValue, betaValue, inputLayer.size()+1);
 				else
-					hiddenNeuron = new HiddenNeuron(0.6, 1.0, inputLayer.size());
+					hiddenNeuron = new HiddenNeuron(stepValue, betaValue, inputLayer.size());
 			}
 			else
 			{
-				hiddenNeuron = new HiddenNeuron(0.6, 1.0, hiddenLayer.back().size());
+				if(bias == true)
+					hiddenNeuron = new HiddenNeuron(stepValue, betaValue, hiddenLayer.back().size() + 1);
+				else
+					hiddenNeuron = new HiddenNeuron(stepValue, betaValue, hiddenLayer.back().size());
 			}
 
 			layer.push_back(hiddenNeuron);
@@ -112,9 +115,9 @@ void Network::createNetworkStructure(std::vector<int> anatomy, bool bias)
 	{
 		OutputNeuron *outputNeuron;
 		if(bias == true)
-			outputNeuron = new OutputNeuron(0.6, 1.0, hiddenLayer.back().size()+1);
+			outputNeuron = new OutputNeuron(stepValue, betaValue, hiddenLayer.back().size()+1);
 		else
-			outputNeuron = new OutputNeuron(0.6, 1.0,hiddenLayer.back().size());
+			outputNeuron = new OutputNeuron(stepValue, betaValue, hiddenLayer.back().size());
 
 		outputLayer.push_back(outputNeuron);
 	}
@@ -159,18 +162,18 @@ void Network::forwardPropagation()
 {
 	for (auto it = hiddenLayer.begin(); it != hiddenLayer.end(); it++)
 	{
-		for (auto iter = it->begin(); iter != it->end(); iter++)//neurony hidden
+		for (auto iter = it->begin(); iter != it->end(); iter++) //Hidden neurons
 		{
 			if (it == hiddenLayer.begin())
 			{
-				for (auto iterator = inputLayer.begin(); iterator != inputLayer.end(); iterator++)//input
+				for (auto iterator = inputLayer.begin(); iterator != inputLayer.end(); iterator++) // Input neurons
 				{
 					(*iter)->setInputValue(std::distance(inputLayer.begin(), iterator), (*iterator)->getOutputValue());
 				}
 			}
 			else if(hiddenLayer.size() > 1)
 			{
-				for (auto iterator = (it-1)->begin(); iterator != it->end(); iterator++)
+				for (auto iterator = (it-1)->begin(); iterator != (it-1)->end(); iterator++)
 				{
 					(*iter)->setInputValue(std::distance((it-1)->begin(), iterator), (*iterator)->getOutputValue());
 				}
@@ -189,7 +192,7 @@ void Network::forwardPropagation()
 		}
 	}
 
-	for (auto it = outputLayer.begin(); it != outputLayer.end(); it++)
+	for (auto it = outputLayer.begin(); it != outputLayer.end(); it++) // Output neurons
 	{
 		for (auto iterator = hiddenLayer.back().begin(); iterator != hiddenLayer.back().end(); iterator++)
 		{
@@ -265,6 +268,11 @@ void Network::mediumSquareError()
 	}
 }
 
+std::vector<double> Network::getVectorOfMediumSquareError()
+{
+	return epochMediumSquareError;
+}
+
 double Network::getMediumSquareError()
 {
 	return epochMediumSquareError.back();
@@ -330,5 +338,4 @@ void Network::printMSEToFile()
 	}
 	else
 		std::cout << "Nie udalo sie odczytac pliku" << std::endl;
-
 }

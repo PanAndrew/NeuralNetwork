@@ -9,7 +9,7 @@ private:
 	std::vector<int> rowNumbers;
 
 public:
-	FileOperation();
+	FileOperation(int iterationsPerEpoch);
 	virtual ~FileOperation();
 
 	void loadFile(std::string file);
